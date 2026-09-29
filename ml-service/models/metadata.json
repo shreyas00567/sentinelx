@@ -1,0 +1,43 @@
+{
+  "model_version": "1.0",
+  "backend": "numpy",
+  "features": [
+    "hour_sin",
+    "hour_cos",
+    "is_off_hours",
+    "failed_attempts",
+    "request_rate_per_min",
+    "bytes_sent",
+    "distinct_endpoints_1h",
+    "session_duration_min"
+  ],
+  "layer_sizes": [
+    8,
+    64,
+    32,
+    8,
+    32,
+    64,
+    8
+  ],
+  "threshold": 0.029258530730405786,
+  "threshold_strategy": "mean + 3*std of validation reconstruction error",
+  "trained_at": "2026-08-25T03:39:24.689922+00:00",
+  "metrics": {
+    "precision": 0.9996,
+    "recall": 0.8928,
+    "f1_score": 0.9432,
+    "accuracy": 0.9402,
+    "false_positive_rate": 0.0005,
+    "confusion_matrix": {
+      "tn": 1999,
+      "fp": 1,
+      "fn": 268,
+      "tp": 2232
+    },
+    "eval_set": {
+      "normal": 2000,
+      "anomalous": 2500
+    }
+  }
+}

@@ -1,0 +1,37 @@
+# Node / Frontend
+frontend/node_modules/
+frontend/dist/
+*.local
+
+# Java / Backend
+backend/target/
+*.class
+*.jar
+!.mvn/wrapper/*.jar
+
+# Python / ML
+ml-service/__pycache__/
+ml-service/**/__pycache__/
+ml-service/.venv/
+simulator/.venv/
+simulator/__pycache__/
+
+# Large trained artifacts (manage intentionally)
+ml-service/models/*.keras
+ml-service/models/*.npz
+ml-service/models/*.joblib
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

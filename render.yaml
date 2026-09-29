@@ -1,0 +1,77 @@
+# SentinelX - Render Blueprint (all-in-one free deploy)
+# Create the GitHub repo -> Render dashboard "New +" -> Blueprint ->
+# select this repo, and all services below are provisioned together.
+# Docs: docs/RENDER_DEPLOY.md
+
+databases:
+  - name: sentinelx
+    databaseName: sentinelx
+    user: sentinelx
+    plan: free
+
+services:
+  # ---------- ML service (FastAPI + autoencoder) :8000 ----------
+  - type: web
+    name: sentinelx-ml
+    runtime: docker
+    dockerfilePath: ml-service/Dockerfile
+    plan: free
+    envVars:
+      - key: PORT
+        value: 8000
+    healthCheckPath: /health
+
+  # ---------- Backend API (Spring Boot) :8080 ----------
+  - type: web
+    name: sentinelx-api
+    runtime: docker
+    dockerfilePath: backend/Dockerfile
+    plan: free
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: DB_HOST
+        fromDatabase:
+          name: sentinelx
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: sentinelx
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: sentinelx
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: sentinelx
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: sentinelx
+          property: password
+      - key: ML_BASE_URL
+        fromService:
+          name: sentinelx-ml
+          type: web
+          property: host
+      - key: CORS_ORIGINS
+        fromService:
+          name: sentinelx-web
+          type: web
+          property: RENDER_EXTERNAL_URL
+      - key: JWT_SECRET
+        generateValue: true
+
+  # ---------- Frontend (React SPA, static) ----------
+  - type: web
+    name: sentinelx-web
+    runtime: static
+    buildCommand: npm ci && VITE_API_URL=$VITE_API_URL npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: sentinelx-api
+          type: web
+          property: RENDER_EXTERNAL_URL

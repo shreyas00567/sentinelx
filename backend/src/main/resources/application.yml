@@ -1,0 +1,52 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: sentinelx
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:sentinelx}
+    username: ${DB_USER:sentinelx}
+    password: ${DB_PASSWORD:sentinelx}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc.time_zone: UTC
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+sentinelx:
+  jwt:
+    secret: ${JWT_SECRET:dev-only-secret-key-change-me-sentinelx-1234567890}
+    expiration-minutes: ${JWT_EXPIRATION_MINUTES:120}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
+  ml:
+    base-url: ${ML_BASE_URL:http://localhost:8000}
+    enabled: true
+    connect-timeout-ms: 700
+    read-timeout-ms: 2500
+  risk:
+    incident-threshold: ${RISK_INCIDENT_THRESHOLD:55}
+    incident-dedupe-hours: 2
+    weights:
+      confidence: 15
+      anomaly: 15
+      repeat-per-event: 2
+      repeat-cap: 5
+      intel-boost: 8
+  threat-intel:
+    abuseipdb-key: ${ABUSEIPDB_API_KEY:}
+    cache-hours: 24
+  seed:
+    admin-username: ${SEED_ADMIN_USER:admin}
+    admin-password: ${SEED_ADMIN_PASS:Admin@123}
+    analyst-password: ${SEED_ANALYST_PASS:Analyst@123}
+
+logging:
+  level:
+    com.sentinelx.sentinelx: INFO
