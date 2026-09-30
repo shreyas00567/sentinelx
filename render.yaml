@@ -64,6 +64,7 @@ services:
   - type: web
     name: sentinelx-web
     runtime: static
+    rootDir: frontend
     buildCommand: npm ci && VITE_API_URL=https://$API_HOST npm run build
     staticPublishPath: ./dist
     envVars:

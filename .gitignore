@@ -20,6 +20,7 @@ simulator/__pycache__/
 ml-service/models/*.keras
 ml-service/models/*.npz
 ml-service/models/*.joblib
+!ml-service/models/autoencoder.npz
 
 # Secrets
 .env
