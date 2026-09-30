@@ -30,7 +30,13 @@ public class MlClientService {
 
     private static String normalizeBaseUrl(String url) {
         String trimmed = url == null ? "" : url.trim();
-        if (!trimmed.isEmpty() && !trimmed.startsWith("http://") && !trimmed.startsWith("https://")) {
+        if (trimmed.isEmpty()) {
+            return trimmed;
+        }
+        if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://")) {
+            if (!trimmed.contains(".")) {
+                trimmed = trimmed + ".onrender.com";
+            }
             return "https://" + trimmed;
         }
         return trimmed;
