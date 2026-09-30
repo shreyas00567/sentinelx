@@ -62,7 +62,7 @@ services:
     name: sentinelx-web
     runtime: static
     rootDir: frontend
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci && npm run build && cp dist/index.html dist/404.html
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
