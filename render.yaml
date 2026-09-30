@@ -56,10 +56,7 @@ services:
           type: web
           property: host
       - key: CORS_ORIGINS
-        fromService:
-          name: sentinelx-web
-          type: web
-          property: RENDER_EXTERNAL_URL
+        value: "*"
       - key: JWT_SECRET
         generateValue: true
 
@@ -67,11 +64,11 @@ services:
   - type: web
     name: sentinelx-web
     runtime: static
-    buildCommand: npm ci && VITE_API_URL=$VITE_API_URL npm run build
+    buildCommand: npm ci && VITE_API_URL=https://$API_HOST npm run build
     staticPublishPath: ./dist
     envVars:
-      - key: VITE_API_URL
+      - key: API_HOST
         fromService:
           name: sentinelx-api
           type: web
-          property: RENDER_EXTERNAL_URL
+          property: host
