@@ -51,10 +51,7 @@ services:
           name: sentinelx
           property: password
       - key: ML_BASE_URL
-        fromService:
-          name: sentinelx-ml
-          type: web
-          property: host
+        value: https://sentinelx-ml.onrender.com
       - key: CORS_ORIGINS
         value: "*"
       - key: JWT_SECRET
