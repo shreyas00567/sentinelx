@@ -28,11 +28,19 @@ public class MlClientService {
     private final String baseUrl;
     private final boolean enabled;
 
+    private static String normalizeBaseUrl(String url) {
+        String trimmed = url == null ? "" : url.trim();
+        if (!trimmed.isEmpty() && !trimmed.startsWith("http://") && !trimmed.startsWith("https://")) {
+            return "https://" + trimmed;
+        }
+        return trimmed;
+    }
+
     public MlClientService(@Value("${sentinelx.ml.base-url}") String baseUrl,
                            @Value("${sentinelx.ml.enabled}") boolean enabled,
                            @Value("${sentinelx.ml.connect-timeout-ms}") int connectTimeoutMs,
                            @Value("${sentinelx.ml.read-timeout-ms}") int readTimeoutMs) {
-        this.baseUrl = baseUrl;
+        this.baseUrl = normalizeBaseUrl(baseUrl);
         this.enabled = enabled;
         SimpleClientHttpRequestFactory f = new SimpleClientHttpRequestFactory();
         f.setConnectTimeout(connectTimeoutMs);

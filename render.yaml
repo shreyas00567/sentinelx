@@ -65,11 +65,8 @@ services:
     name: sentinelx-web
     runtime: static
     rootDir: frontend
-    buildCommand: npm ci && VITE_API_URL=https://$API_HOST npm run build
+    buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
     envVars:
-      - key: API_HOST
-        fromService:
-          name: sentinelx-api
-          type: web
-          property: host
+      - key: VITE_API_URL
+        value: https://sentinelx-api-1nkr.onrender.com
